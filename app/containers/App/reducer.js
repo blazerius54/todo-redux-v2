@@ -1,10 +1,20 @@
 // Initial routing state
-import {fromJS} from "immutable";
+import { fromJS } from 'immutable';
+import { RECEIVE_TASKS_REQUEST, RECEIVE_TASKS_SUCCESS } from '../Main/consts';
 
-const initialState = fromJS({
+export const initialState = fromJS({
   tasks: 'TASK',
 });
 
 export function globalReducer(state = initialState, action) {
-  return state;
+  switch (action.type) {
+    case RECEIVE_TASKS_REQUEST:
+      console.log(action);
+      return state;
+    case RECEIVE_TASKS_SUCCESS:
+      console.log(action);
+      return state;
+    default:
+      return state;
+  }
 }

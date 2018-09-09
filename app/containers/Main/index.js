@@ -1,9 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import saga from './saga';
+import injectSaga from '../../utils/injectSaga';
 import moment from 'moment';
 import { makeSelectTasks } from '../App/selectors';
 import Form from '../../components/Form';
+import { requestTasks } from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
 class Main extends React.PureComponent {
@@ -42,6 +47,7 @@ class Main extends React.PureComponent {
   render() {
     return (
       <div>
+        <button onClick={() => this.props.requestTasks()}>click</button>
         <Form
           onChangeForm={this.onChangeForm}
           saveTask={this.saveTask}
@@ -57,4 +63,17 @@ const mapStateToProps = createStructuredSelector({
   tasks: makeSelectTasks(),
 });
 
-export default connect(mapStateToProps)(Main);
+const withConnect = connect(
+  mapStateToProps,
+  {
+    requestTasks,
+  },
+);
+
+const withSaga = injectSaga({ key: 'Main', saga });
+
+Form.propTypes = {
+  requestTasks: PropTypes.func.isRequired,
+};
+
+export default compose(withConnect, withSaga)(Main);
