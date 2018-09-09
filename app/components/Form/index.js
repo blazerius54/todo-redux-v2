@@ -68,6 +68,7 @@ Form.propTypes = {
   saveTask: PropTypes.func.isRequired,
   title: PropTypes.string,
   description: PropTypes.string,
+  date: PropTypes.object,
 };
 
 export default Form;
