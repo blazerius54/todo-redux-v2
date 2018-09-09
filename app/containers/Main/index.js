@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { makeSelectTasks } from '../App/selectors';
 import Form from '../../components/Form';
 
@@ -12,7 +13,7 @@ class Main extends React.PureComponent {
       title: '',
       description: '',
       priority: '',
-      date: null,
+      date: moment(),
       error: false,
     };
   }
@@ -20,17 +21,33 @@ class Main extends React.PureComponent {
   onChangeForm = (propertyName, value) => {
     this.setState({
       [propertyName]: value,
+      error: false,
     });
+    console.log(propertyName, value);
   };
 
-  saveTask = (e) => {
+  saveTask = e => {
     e.preventDefault();
-  }
+    if (
+      !this.state.title.length ||
+      !this.state.description.length ||
+      !this.state.priority.length
+    ) {
+      this.setState({
+        error: true,
+      });
+    }
+  };
 
   render() {
     return (
       <div>
-        <Form onChangeForm={this.onChangeForm} saveTask={this.saveTask}/>
+        <Form
+          onChangeForm={this.onChangeForm}
+          saveTask={this.saveTask}
+          date={this.state.date}
+        />
+        {this.state.error && 'ERROR'}
       </div>
     );
   }

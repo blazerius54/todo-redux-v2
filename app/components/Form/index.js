@@ -1,5 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import 'react-datepicker/dist/react-datepicker.css';
 import { TaskForm, TaskInfo, TaskRow } from './styled';
+
 /* eslint-disable react/prefer-stateless-function */
 class Form extends React.PureComponent {
   render() {
@@ -8,7 +13,7 @@ class Form extends React.PureComponent {
     const { onChangeForm, saveTask } = this.props;
     return (
       <TaskForm
-        onSubmit={(e) => {
+        onSubmit={e => {
           saveTask(e);
         }}
       >
@@ -44,9 +49,9 @@ class Form extends React.PureComponent {
             <span>
               Date <span className="necessary">(if necessary)</span>
             </span>
-            <input
-              type="datetime-local"
-              onChange={e => onChangeForm('date', e.target.value)}
+            <DatePicker
+              selected={this.props.date}
+              onChange={e => onChangeForm('date', moment(e))}
             />
           </TaskRow>
         </TaskInfo>
@@ -57,4 +62,12 @@ class Form extends React.PureComponent {
     );
   }
 }
+
+Form.propTypes = {
+  onChangeForm: PropTypes.func.isRequired,
+  saveTask: PropTypes.func.isRequired,
+  title: PropTypes.string,
+  description: PropTypes.string,
+};
+
 export default Form;
