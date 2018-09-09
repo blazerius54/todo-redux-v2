@@ -5,4 +5,10 @@ const selectRoute = state => state.get('route');
 const makeSelectLocation = () =>
   createSelector(selectRoute, routeState => routeState.get('location').toJS());
 
-export { makeSelectLocation };
+const selectGlobal = state => state.get('global');
+
+const makeSelectTasks = () =>
+  createSelector(selectGlobal, globalState => globalState.get('tasks'));
+
+
+export { makeSelectLocation, makeSelectTasks };
