@@ -10,4 +10,7 @@ const selectGlobal = state => state.get('global');
 const makeSelectTasks = () =>
   createSelector(selectGlobal, globalState => globalState.tasks);
 
-export { makeSelectLocation, makeSelectTasks };
+const makeSelectLoading = () =>
+  createSelector(selectGlobal, globalState => globalState.isLoading);
+
+export { makeSelectLocation, makeSelectTasks, makeSelectLoading };

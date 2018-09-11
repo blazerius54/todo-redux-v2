@@ -1,4 +1,3 @@
-// Initial routing state
 import { RECEIVE_TASKS_REQUEST, RECEIVE_TASKS_SUCCESS, SEND_TASK_REQUEST } from '../Main/consts';
 
 export const initialState = {
@@ -17,9 +16,10 @@ export function globalReducer(state = initialState, action) {
       console.log(action);
       return {
         ...state,
+        isLoading: false,
         tasks: [
           ...action.tasks,
-        ]
+        ],
       };
     case SEND_TASK_REQUEST:
       console.log(action.task);

@@ -6,8 +6,9 @@ import { compose } from 'redux';
 import moment from 'moment';
 import saga from './saga';
 import injectSaga from '../../utils/injectSaga';
-import { makeSelectTasks } from '../App/selectors';
+import { makeSelectTasks, makeSelectLoading } from '../App/selectors';
 import Form from '../../components/Form';
+import Spinner from '../../components/Loader';
 import { requestTasks, sendTaskRequest } from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -50,7 +51,7 @@ class Main extends React.PureComponent {
   }
 
   render() {
-    const { tasks, requestTasks, sendTaskRequest } = this.props;
+    const { tasks, isLoading, requestTasks, sendTaskRequest } = this.props;
     return (
       <div>
         <button onClick={() => this.props.requestTasks()}>click</button>
@@ -68,6 +69,7 @@ class Main extends React.PureComponent {
             )
           })
         }
+        {isLoading && <Spinner />}
         {this.state.error && 'ERROR'}
       </div>
     );
@@ -76,6 +78,7 @@ class Main extends React.PureComponent {
 
 const mapStateToProps = createStructuredSelector({
   tasks: makeSelectTasks(),
+  isLoading: makeSelectLoading(),
 });
 
 const withConnect = connect(
