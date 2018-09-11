@@ -10,6 +10,7 @@ import { makeSelectTasks, makeSelectLoading } from '../App/selectors';
 import Form from '../../components/Form';
 import Spinner from '../../components/Loader';
 import { requestTasks, sendTaskRequest } from './actions';
+import TaskList from '../../components/TaskList';
 
 /* eslint-disable react/prefer-stateless-function */
 class Main extends React.PureComponent {
@@ -45,9 +46,8 @@ class Main extends React.PureComponent {
     }
   };
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.requestTasks();
-    console.log(this.props.tasks);
   }
 
   render() {
@@ -62,13 +62,7 @@ class Main extends React.PureComponent {
           saveTask={this.saveTask}
           date={this.state.date}
         />
-        {
-          tasks && tasks.map(task => {
-            return (
-              <p key={task.description}>{task.description}</p>
-            )
-          })
-        }
+        {tasks && <TaskList tasks={tasks} />}
         {isLoading && <Spinner />}
         {this.state.error && 'ERROR'}
       </div>
@@ -95,4 +89,7 @@ Main.propTypes = {
   requestTasks: PropTypes.func.isRequired,
 };
 
-export default compose(withConnect, withSaga)(Main);
+export default compose(
+  withConnect,
+  withSaga,
+)(Main);

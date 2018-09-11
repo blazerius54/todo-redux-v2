@@ -1,7 +1,9 @@
-const tasks = [{
-  description: 'asd',
-}, {
-  description: '123123',
-}];
+const tasks = [
+  {
+    title: 'Aasd',
+    description: 'Zdf sdjfkj eewf knj khbhb kjn',
+    priority: 'high',
+  },
+];
 
 export default tasks;

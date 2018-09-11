@@ -12,15 +12,15 @@ import tasks from '../../tasks';
 
 function* tasksFlow() {
   yield call(() => requestTasks());
-  yield call(delay, 5000);
+  yield call(delay, 1000);
   yield put(requestTaskSuccess(tasks));
 }
 
 function* sendTaskFlow(action) {
   yield call(() => sendTaskRequest(action.task));
-  yield call(delay, 5000);
+  yield call(delay, 1000);
   yield put(sendTaskSuccess());
-  yield tasksFlow()
+  yield tasksFlow();
 }
 
 export default function* tasksSaga() {
