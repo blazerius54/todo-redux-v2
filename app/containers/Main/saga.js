@@ -8,18 +8,19 @@ import {
   sendTaskRequest,
   sendTaskSuccess,
 } from './actions';
-import { initialState } from '../App/reducer';
+import tasks from '../../tasks';
 
 function* tasksFlow() {
   yield call(() => requestTasks());
-  yield call(delay, 500);
-  yield put(requestTaskSuccess(initialState.get('tasks')));
+  yield call(delay, 5000);
+  yield put(requestTaskSuccess(tasks));
 }
 
 function* sendTaskFlow(action) {
   yield call(() => sendTaskRequest(action.task));
-  yield call(delay, 500);
+  yield call(delay, 5000);
   yield put(sendTaskSuccess());
+  yield tasksFlow()
 }
 
 export default function* tasksSaga() {

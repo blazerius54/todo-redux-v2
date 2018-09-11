@@ -8,7 +8,6 @@ const makeSelectLocation = () =>
 const selectGlobal = state => state.get('global');
 
 const makeSelectTasks = () =>
-  createSelector(selectGlobal, globalState => globalState.get('tasks'));
-
+  createSelector(selectGlobal, globalState => globalState.tasks);
 
 export { makeSelectLocation, makeSelectTasks };

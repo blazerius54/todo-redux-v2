@@ -20,6 +20,7 @@ class Main extends React.PureComponent {
       priority: '',
       date: moment(),
       error: false,
+      tasks: [],
     };
   }
 
@@ -43,18 +44,30 @@ class Main extends React.PureComponent {
     }
   };
 
+  componentDidMount () {
+    this.props.requestTasks();
+    console.log(this.props.tasks);
+  }
+
   render() {
-    console.log(this.props.tasks)
+    const { tasks, requestTasks, sendTaskRequest } = this.props;
     return (
       <div>
         <button onClick={() => this.props.requestTasks()}>click</button>
-        <button onClick={() => this.props.sendTaskRequest(this.state)}>click2</button>
+        <button onClick={() => sendTaskRequest(this.state)}>click2</button>
+        <button onClick={() => console.log(tasks)}>click3</button>
         <Form
           onChangeForm={this.onChangeForm}
           saveTask={this.saveTask}
           date={this.state.date}
         />
-        {/*{this.props.tasks}*/}
+        {
+          tasks && tasks.map(task => {
+            return (
+              <p key={task.description}>{task.description}</p>
+            )
+          })
+        }
         {this.state.error && 'ERROR'}
       </div>
     );
