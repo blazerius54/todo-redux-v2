@@ -22,7 +22,6 @@ class Main extends React.PureComponent {
       priority: '',
       date: moment(),
       error: false,
-      tasks: [],
     };
   }
 
@@ -34,6 +33,7 @@ class Main extends React.PureComponent {
   };
 
   saveTask = e => {
+    const { title, description, priority, date } = this.state;
     e.preventDefault();
     if (
       !this.state.title.length ||
@@ -43,7 +43,15 @@ class Main extends React.PureComponent {
       this.setState({
         error: true,
       });
+      return;
     }
+    const payload = {
+      title,
+      description,
+      priority,
+      date,
+    };
+    this.props.sendTaskRequest(payload);
   };
 
   componentDidMount() {
@@ -54,13 +62,11 @@ class Main extends React.PureComponent {
     const { tasks, isLoading, requestTasks, sendTaskRequest } = this.props;
     return (
       <div>
-        <button onClick={() => this.props.requestTasks()}>click</button>
-        <button onClick={() => sendTaskRequest(this.state)}>click2</button>
-        <button onClick={() => console.log(tasks)}>click3</button>
         <Form
           onChangeForm={this.onChangeForm}
           saveTask={this.saveTask}
           date={this.state.date}
+          sendTaskRequest={sendTaskRequest}
         />
         {tasks && <TaskList tasks={tasks} />}
         {isLoading && <Spinner />}
@@ -87,6 +93,7 @@ const withSaga = injectSaga({ key: 'Main', saga });
 
 Main.propTypes = {
   requestTasks: PropTypes.func.isRequired,
+  sendTaskRequest: PropTypes.func.isRequired,
 };
 
 export default compose(
