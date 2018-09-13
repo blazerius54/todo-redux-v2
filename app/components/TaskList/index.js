@@ -6,28 +6,34 @@ import { TaskWrapper, TaskRow } from './styled';
 class TaskList extends React.PureComponent {
   render() {
     const { tasks } = this.props;
-    return tasks.map(({ title, description, priority, date }) => (
-  <TaskWrapper key={title}>
-        <TaskRow>
-      <p>Title:</p>
-      <p>{title}</p>
-    </TaskRow>
-        <TaskRow>
-      <p>Description:</p>
-      <p>{description}</p>
-    </TaskRow>
-        <TaskRow>
-      <p>Priority:</p>
-      <p>{priority}</p>
-    </TaskRow>
-        {date && (
-    <TaskRow>
-            <p>Date:</p>
-            <p>{moment(date).format('D M YYYY')}</p>
-          </TaskRow>
-        )}
-      </TaskWrapper>
-    ));
+    return (
+      <div>
+        {
+          tasks.map(({ title, description, priority, date }) => (
+            <TaskWrapper key={title}>
+              <TaskRow>
+                <p>Title:</p>
+                <p>{title}</p>
+              </TaskRow>
+              <TaskRow>
+                <p>Description:</p>
+                <p>{description}</p>
+              </TaskRow>
+              <TaskRow>
+                <p>Priority:</p>
+                <p>{priority}</p>
+              </TaskRow>
+              {date && (
+                <TaskRow>
+                  <p>Date:</p>
+                  <p>{moment(date).format('D M YYYY')}</p>
+                </TaskRow>
+              )}
+            </TaskWrapper>
+          ))
+        }
+      </div>
+    )
   }
 }
 

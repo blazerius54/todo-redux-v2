@@ -23,7 +23,6 @@ export function globalReducer(state = initialState, action) {
         tasks: [...action.tasks],
       };
     case SEND_TASK_REQUEST:
-      console.log(action)
       return {
         ...state,
         tasks: [...state.tasks, action.task],
