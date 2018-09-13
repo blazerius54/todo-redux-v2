@@ -16,6 +16,7 @@ export const TaskForm = styled.form`
     flex-basis: 70%;
     border-bottom: 2px solid #2222;
     transition: all 0.5s ease;
+    -moz-appearance: none;
   }
 
   input:focus,

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import moment from 'moment';
 import saga from './saga';
 import injectSaga from '../../utils/injectSaga';
 import { makeSelectTasks, makeSelectLoading } from '../App/selectors';
@@ -20,7 +19,7 @@ class Main extends React.PureComponent {
       title: '',
       description: '',
       priority: '',
-      date: moment(),
+      date: '',
       error: false,
     };
   }
@@ -59,7 +58,7 @@ class Main extends React.PureComponent {
   }
 
   render() {
-    const { tasks, isLoading, requestTasks, sendTaskRequest } = this.props;
+    const { tasks, isLoading } = this.props;
     return (
       <div>
         <Form
@@ -94,6 +93,8 @@ const withSaga = injectSaga({ key: 'Main', saga });
 Main.propTypes = {
   requestTasks: PropTypes.func.isRequired,
   sendTaskRequest: PropTypes.func.isRequired,
+  tasks: PropTypes.array,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default compose(
