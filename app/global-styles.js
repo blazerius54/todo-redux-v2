@@ -2,6 +2,11 @@ import { injectGlobal } from 'styled-components';
 
 /* eslint no-unused-expressions: 0 */
 injectGlobal`
+  * {
+      box-sizing: border-box;
+      outline:0;
+  }
+  
   html,
   body {
     height: 100%;
@@ -17,7 +22,7 @@ injectGlobal`
   }
 
   #app {
-    background-color: #fafafa;
+    background-color: teal;
     min-height: 100%;
     min-width: 100%;
   }
