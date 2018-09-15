@@ -1,4 +1,9 @@
-import { RECEIVE_TASKS_REQUEST, RECEIVE_TASKS_SUCCESS, SEND_TASK_REQUEST } from '../Main/consts';
+import {
+  RECEIVE_TASKS_REQUEST,
+  RECEIVE_TASKS_SUCCESS,
+  SEND_TASK_REQUEST,
+  SEND_TASK_SUCCESS,
+} from '../Main/consts';
 
 export const initialState = {
   tasks: [],
@@ -13,20 +18,21 @@ export function globalReducer(state = initialState, action) {
         isLoading: true,
       };
     case RECEIVE_TASKS_SUCCESS:
-      console.log(action);
       return {
         ...state,
         isLoading: false,
-        tasks: [
-          ...action.tasks,
-        ],
+        tasks: [...action.tasks],
       };
     case SEND_TASK_REQUEST:
-      console.log(action.task);
       return {
-        tasks: [
-          ...state.tasks, action.task
-        ]
+        ...state,
+        isLoading: true,
+      }
+    case SEND_TASK_SUCCESS:
+      return {
+        ...state,
+        tasks: [...state.tasks, action.task],
+        isLoading: false,
       };
     default:
       return state;
