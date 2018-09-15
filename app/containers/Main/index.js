@@ -24,6 +24,15 @@ class Main extends React.PureComponent {
     };
   }
 
+  resetState = () => {
+    this.setState({
+      title: '',
+      description: '',
+      priority: '',
+      date: '',
+    });
+  };
+
   onChangeForm = (propertyName, value) => {
     this.setState({
       [propertyName]: value,
@@ -51,6 +60,7 @@ class Main extends React.PureComponent {
       date,
     };
     this.props.sendTaskRequest(payload);
+    this.resetState();
   };
 
   componentDidMount() {
@@ -64,7 +74,6 @@ class Main extends React.PureComponent {
         <Form
           onChangeForm={this.onChangeForm}
           saveTask={this.saveTask}
-          date={this.state.date}
           sendTaskRequest={sendTaskRequest}
         />
         {tasks && <TaskList tasks={tasks} />}
