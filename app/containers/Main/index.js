@@ -8,7 +8,7 @@ import injectSaga from '../../utils/injectSaga';
 import { makeSelectTasks, makeSelectLoading } from '../App/selectors';
 import Form from '../../components/Form';
 import Spinner from '../../components/Loader';
-import { requestTasks, addTaskRequest } from './actions';
+import { requestTasks, addTaskRequest, deleteTaskRequest } from './actions';
 import TaskList from '../../components/TaskList';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -63,6 +63,10 @@ class Main extends React.PureComponent {
     this.resetState();
   };
 
+  deleteTask = (index) => {
+    this.props.deleteTaskRequest(index);
+  };
+
   componentDidMount() {
     this.props.requestTasks();
   }
@@ -76,7 +80,7 @@ class Main extends React.PureComponent {
           saveTask={this.saveTask}
           addTaskRequest={addTaskRequest}
         />
-        {tasks && <TaskList tasks={tasks} />}
+        {tasks && <TaskList deleteTask={this.deleteTask} tasks={tasks} />}
         {isLoading && <Spinner />}
         {this.state.error && 'ERROR'}
       </div>
@@ -94,6 +98,7 @@ const withConnect = connect(
   {
     requestTasks,
     addTaskRequest,
+    deleteTaskRequest,
   },
 );
 
@@ -102,6 +107,7 @@ const withSaga = injectSaga({ key: 'Main', saga });
 Main.propTypes = {
   requestTasks: PropTypes.func.isRequired,
   addTaskRequest: PropTypes.func.isRequired,
+  deleteTaskRequest: PropTypes.func.isRequired,
   tasks: PropTypes.array,
   isLoading: PropTypes.bool.isRequired,
 };

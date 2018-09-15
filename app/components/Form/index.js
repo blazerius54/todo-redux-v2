@@ -40,9 +40,9 @@ class Form extends React.PureComponent {
               onChange={e => onChangeForm('priority', e.target.value)}
             >
               <option/>
-              <option value="0">low</option>
-              <option value="1">medium</option>
-              <option value="2">high</option>
+              <option value="low">low</option>
+              <option value="medium">medium</option>
+              <option value="high">high</option>
             </select>
           </TaskRow>
           <TaskRow>
