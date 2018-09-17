@@ -5,6 +5,7 @@ import {
   SEND_TASK_SUCCESS,
   DELETE_TASK_REQUEST,
   DELETE_TASK_SUCCESS,
+  EDIT_TASK,
 } from './consts';
 
 export const requestTasks = () => ({
@@ -34,4 +35,10 @@ export const deleteTaskRequest = index => ({
 export const deleteTaskSuccess = index => ({
   type: DELETE_TASK_SUCCESS,
   index,
-})
+});
+
+export const editTask = (index, task) => ({
+  type: EDIT_TASK,
+  index,
+  task,
+});

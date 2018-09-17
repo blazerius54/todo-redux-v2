@@ -5,6 +5,7 @@ import {
   SEND_TASK_SUCCESS,
   DELETE_TASK_REQUEST,
   DELETE_TASK_SUCCESS,
+  EDIT_TASK,
 } from '../Main/consts';
 
 export const initialState = {
@@ -47,6 +48,22 @@ export function globalReducer(state = initialState, action) {
         isLoading: false,
         tasks: [
           ...state.tasks.slice(0, action.index),
+          ...state.tasks.slice(action.index + 1),
+        ],
+      };
+    case EDIT_TASK:
+      console.log(action);
+      const { title, description, priority, date, } = action.task;
+      return {
+        ...state,
+        tasks: [
+          ...state.tasks.slice(0, action.index),
+          state.tasks[action.index] = {
+            title,
+            description,
+            priority,
+            date,
+          },
           ...state.tasks.slice(action.index + 1),
         ],
       };

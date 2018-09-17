@@ -8,7 +8,7 @@ import injectSaga from '../../utils/injectSaga';
 import { makeSelectTasks, makeSelectLoading } from '../App/selectors';
 import Form from '../../components/Form';
 import Spinner from '../../components/Loader';
-import { requestTasks, addTaskRequest, deleteTaskRequest } from './actions';
+import { requestTasks, addTaskRequest, deleteTaskRequest, editTask } from './actions';
 import TaskList from '../../components/TaskList';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -40,8 +40,10 @@ class Main extends React.PureComponent {
     });
   };
 
-  saveTask = e => {
-    const { title, description, priority, date } = this.state;
+  saveTask = (e) => {
+    const {
+ title, description, priority, date 
+} = this.state;
     e.preventDefault();
     if (
       !this.state.title.length ||
@@ -63,9 +65,34 @@ class Main extends React.PureComponent {
     this.resetState();
   };
 
-  deleteTask = (index) => {
+  deleteTask = index => {
     this.props.deleteTaskRequest(index);
   };
+
+  setStateAsEditing = (task) => {
+    console.log(task);
+    const { title, description, priority, date } = task;
+    this.setState({
+      title,
+      description,
+      priority,
+      date,
+    });
+  }
+
+  saveEditedTask = (index) => {
+    // console.log(index);
+    const { title, description, priority, date } = this.state;
+
+    const task = {
+      title,
+      description,
+      priority,
+      date,
+    }
+    this.props.editTask(index, task);
+    this.resetState();
+  }
 
   componentDidMount() {
     this.props.requestTasks();
@@ -80,7 +107,16 @@ class Main extends React.PureComponent {
           saveTask={this.saveTask}
           addTaskRequest={addTaskRequest}
         />
-        {tasks && <TaskList deleteTask={this.deleteTask} tasks={tasks} />}
+        {tasks && (
+          <TaskList
+            deleteTask={this.deleteTask}
+            tasks={tasks}
+            onChangeForm={this.onChangeForm}
+            saveTask={this.saveTask}
+            setStateAsEditing={this.setStateAsEditing}
+            saveEditedTask={this.saveEditedTask}
+          />
+        )}
         {isLoading && <Spinner />}
         {this.state.error && 'ERROR'}
       </div>
@@ -99,6 +135,7 @@ const withConnect = connect(
     requestTasks,
     addTaskRequest,
     deleteTaskRequest,
+    editTask,
   },
 );
 
