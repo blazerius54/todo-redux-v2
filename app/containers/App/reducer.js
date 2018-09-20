@@ -6,11 +6,15 @@ import {
   DELETE_TASK_REQUEST,
   DELETE_TASK_SUCCESS,
   EDIT_TASK,
+  CHANGE_FILTER,
 } from '../Main/consts';
+
+import { ALL_TASKSKS } from '../../utils/constants';
 
 export const initialState = {
   tasks: [],
   isLoading: false,
+  filter: ALL_TASKS,
 };
 
 export function globalReducer(state = initialState, action) {
@@ -52,20 +56,24 @@ export function globalReducer(state = initialState, action) {
         ],
       };
     case EDIT_TASK:
-      console.log(action);
-      const { title, description, priority, date, } = action.task;
+      const { title, description, priority, date } = action.task;
       return {
         ...state,
         tasks: [
           ...state.tasks.slice(0, action.index),
-          state.tasks[action.index] = {
+          (state.tasks[action.index] = {
             title,
             description,
             priority,
             date,
-          },
+          }),
           ...state.tasks.slice(action.index + 1),
         ],
+      };
+    case CHANGE_FILTER:
+      return {
+        ...state,
+        filter: action.priority,
       };
     default:
       return state;

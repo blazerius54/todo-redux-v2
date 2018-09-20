@@ -10,6 +10,9 @@ import Form from '../../components/Form';
 import Spinner from '../../components/Loader';
 import { requestTasks, addTaskRequest, deleteTaskRequest, editTask } from './actions';
 import TaskList from '../../components/TaskList';
+import { ALL_TASKS, LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY } from '../../utils/constants';
+
+const priorities = [ALL_TASKS, LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY];
 
 /* eslint-disable react/prefer-stateless-function */
 class Main extends React.PureComponent {
@@ -102,6 +105,13 @@ class Main extends React.PureComponent {
     const { tasks, isLoading } = this.props;
     return (
       <div>
+        <div>
+          {
+            priorities.map((item) => (
+              <p>{item}</p>
+            ))
+          }
+        </div>
         <Form
           onChangeForm={this.onChangeForm}
           saveTask={this.saveTask}

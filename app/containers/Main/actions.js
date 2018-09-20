@@ -6,6 +6,7 @@ import {
   DELETE_TASK_REQUEST,
   DELETE_TASK_SUCCESS,
   EDIT_TASK,
+  CHANGE_FILTER,
 } from './consts';
 
 export const requestTasks = () => ({
@@ -41,4 +42,9 @@ export const editTask = (index, task) => ({
   type: EDIT_TASK,
   index,
   task,
+});
+
+export const changeTaskFilter = priority => ({
+  type: CHANGE_FILTER,
+  priority,
 });
