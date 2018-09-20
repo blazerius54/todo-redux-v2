@@ -5,7 +5,7 @@ import { RECEIVE_TASKS_REQUEST, SEND_TASK_REQUEST } from './consts';
 import {
   requestTasks,
   requestTaskSuccess,
-  sendTaskRequest,
+  addTaskRequest,
   sendTaskSuccess,
 } from './actions';
 import tasks from '../../tasks';
@@ -17,15 +17,15 @@ function* tasksFlow() {
 }
 
 function* sendTaskFlow(action) {
-  yield call(() => sendTaskRequest(action.task));
+  console.log(action)
+  yield call(() => addTaskRequest(action.task));
   yield call(delay, 1000);
-  yield put(sendTaskSuccess());
-  yield tasksFlow();
+  yield put(sendTaskSuccess(action.task));
 }
 
 export default function* tasksSaga() {
   yield all(
     [yield takeLatest(RECEIVE_TASKS_REQUEST, tasksFlow)],
-    [yield SEND_TASK_REQUEST, sendTaskFlow],
+    [yield takeLatest(SEND_TASK_REQUEST, sendTaskFlow)],
   );
 }

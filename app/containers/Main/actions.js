@@ -14,11 +14,12 @@ export const requestTaskSuccess = tasks => ({
   tasks,
 });
 
-export const sendTaskRequest = task => ({
+export const addTaskRequest = task => ({
   type: SEND_TASK_REQUEST,
   task,
 });
 
-export const sendTaskSuccess = () => ({
+export const sendTaskSuccess = task => ({
   type: SEND_TASK_SUCCESS,
+  task,
 });

@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import moment from 'moment';
 import saga from './saga';
 import injectSaga from '../../utils/injectSaga';
 import { makeSelectTasks, makeSelectLoading } from '../App/selectors';
 import Form from '../../components/Form';
 import Spinner from '../../components/Loader';
-import { requestTasks, sendTaskRequest } from './actions';
+import { requestTasks, addTaskRequest } from './actions';
 import TaskList from '../../components/TaskList';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -19,7 +20,7 @@ class Main extends React.PureComponent {
       title: '',
       description: '',
       priority: '',
-      date: '',
+      date: moment(),
       error: false,
     };
   }
@@ -61,6 +62,14 @@ class Main extends React.PureComponent {
     };
     this.props.sendTaskRequest(payload);
     this.resetState();
+    const payload = {
+      title,
+      description,
+      priority,
+      date,
+    };
+    this.props.addTaskRequest(payload);
+    this.resetState();
   };
 
   componentDidMount() {
@@ -74,7 +83,7 @@ class Main extends React.PureComponent {
         <Form
           onChangeForm={this.onChangeForm}
           saveTask={this.saveTask}
-          sendTaskRequest={sendTaskRequest}
+          addTaskRequest={addTaskRequest}
         />
         {tasks && <TaskList tasks={tasks} />}
         {isLoading && <Spinner />}
@@ -93,7 +102,7 @@ const withConnect = connect(
   mapStateToProps,
   {
     requestTasks,
-    sendTaskRequest,
+    addTaskRequest,
   },
 );
 
@@ -101,7 +110,7 @@ const withSaga = injectSaga({ key: 'Main', saga });
 
 Main.propTypes = {
   requestTasks: PropTypes.func.isRequired,
-  sendTaskRequest: PropTypes.func.isRequired,
+  addTaskRequest: PropTypes.func.isRequired,
   tasks: PropTypes.array,
   isLoading: PropTypes.bool.isRequired,
 };
