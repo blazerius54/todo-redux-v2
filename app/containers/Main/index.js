@@ -1,9 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import moment from 'moment';
-import { makeSelectTasks } from '../App/selectors';
+import { compose } from 'redux';
+import saga from './saga';
+import injectSaga from '../../utils/injectSaga';
+import { makeSelectTasks, makeSelectLoading } from '../App/selectors';
 import Form from '../../components/Form';
+import Spinner from '../../components/Loader';
+import { requestTasks, addTaskRequest } from './actions';
+import TaskList from '../../components/TaskList';
 
 /* eslint-disable react/prefer-stateless-function */
 class Main extends React.PureComponent {
@@ -13,20 +19,29 @@ class Main extends React.PureComponent {
       title: '',
       description: '',
       priority: '',
-      date: moment(),
+      date: '',
       error: false,
     };
   }
+
+  resetState = () => {
+    this.setState({
+      title: '',
+      description: '',
+      priority: '',
+      date: '',
+    });
+  };
 
   onChangeForm = (propertyName, value) => {
     this.setState({
       [propertyName]: value,
       error: false,
     });
-    console.log(propertyName, value);
   };
 
   saveTask = e => {
+    const { title, description, priority, date } = this.state;
     e.preventDefault();
     if (
       !this.state.title.length ||
@@ -36,17 +51,33 @@ class Main extends React.PureComponent {
       this.setState({
         error: true,
       });
+      return;
     }
+    const payload = {
+      title,
+      description,
+      priority,
+      date,
+    };
+    this.props.addTaskRequest(payload);
+    this.resetState();
   };
 
+  componentDidMount() {
+    this.props.requestTasks();
+  }
+
   render() {
+    const { tasks, isLoading } = this.props;
     return (
       <div>
         <Form
           onChangeForm={this.onChangeForm}
           saveTask={this.saveTask}
-          date={this.state.date}
+          addTaskRequest={addTaskRequest}
         />
+        {tasks && <TaskList tasks={tasks} />}
+        {isLoading && <Spinner />}
         {this.state.error && 'ERROR'}
       </div>
     );
@@ -55,6 +86,27 @@ class Main extends React.PureComponent {
 
 const mapStateToProps = createStructuredSelector({
   tasks: makeSelectTasks(),
+  isLoading: makeSelectLoading(),
 });
 
-export default connect(mapStateToProps)(Main);
+const withConnect = connect(
+  mapStateToProps,
+  {
+    requestTasks,
+    addTaskRequest,
+  },
+);
+
+const withSaga = injectSaga({ key: 'Main', saga });
+
+Main.propTypes = {
+  requestTasks: PropTypes.func.isRequired,
+  addTaskRequest: PropTypes.func.isRequired,
+  tasks: PropTypes.array,
+  isLoading: PropTypes.bool.isRequired,
+};
+
+export default compose(
+  withConnect,
+  withSaga,
+)(Main);

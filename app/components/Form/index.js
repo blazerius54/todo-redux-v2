@@ -8,12 +8,12 @@ import { TaskForm, TaskInfo, TaskRow } from './styled';
 /* eslint-disable react/prefer-stateless-function */
 class Form extends React.PureComponent {
   render() {
-    const title = this.props.title || '';
-    const description = this.props.description || '';
     const { onChangeForm, saveTask } = this.props;
+    const { title, description } = this.props;
     return (
       <TaskForm
         onSubmit={e => {
+          e.target.reset();
           saveTask(e);
         }}
       >
@@ -39,7 +39,7 @@ class Form extends React.PureComponent {
               name="todoPriority"
               onChange={e => onChangeForm('priority', e.target.value)}
             >
-              <option />
+              <option/>
               <option value="0">low</option>
               <option value="1">medium</option>
               <option value="2">high</option>
@@ -68,6 +68,7 @@ Form.propTypes = {
   saveTask: PropTypes.func.isRequired,
   title: PropTypes.string,
   description: PropTypes.string,
+  date: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
 };
 
 export default Form;
