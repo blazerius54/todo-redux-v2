@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import saga from './saga';
 import injectSaga from '../../utils/injectSaga';
-import { makeSelectTasks, makeSelectLoading } from '../App/selectors';
+import { makeSelectTasks, makeSelectLoading, makeSelectPriority } from '../App/selectors';
 import Form from '../../components/Form';
 import Spinner from '../../components/Loader';
-import { requestTasks, addTaskRequest, deleteTaskRequest, editTask } from './actions';
+import { requestTasks, addTaskRequest, deleteTaskRequest, editTask, changeTaskFilter } from './actions';
 import TaskList from '../../components/TaskList';
 import { ALL_TASKS, LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY } from '../../utils/constants';
 
@@ -101,14 +101,18 @@ class Main extends React.PureComponent {
     this.props.requestTasks();
   }
 
+  foo = (item) => {
+    this.props.changeTaskFilter(item)
+  }
+
   render() {
-    const { tasks, isLoading } = this.props;
+    const { tasks, isLoading, priority } = this.props;
     return (
       <div>
         <div>
           {
             priorities.map((item) => (
-              <p>{item}</p>
+              <button onClick={()=>this.foo(item)}>{item}</button>
             ))
           }
         </div>
@@ -125,6 +129,7 @@ class Main extends React.PureComponent {
             saveTask={this.saveTask}
             setStateAsEditing={this.setStateAsEditing}
             saveEditedTask={this.saveEditedTask}
+            priority={priority}
           />
         )}
         {isLoading && <Spinner />}
@@ -137,6 +142,7 @@ class Main extends React.PureComponent {
 const mapStateToProps = createStructuredSelector({
   tasks: makeSelectTasks(),
   isLoading: makeSelectLoading(),
+  priority: makeSelectPriority(),
 });
 
 const withConnect = connect(
@@ -146,6 +152,7 @@ const withConnect = connect(
     addTaskRequest,
     deleteTaskRequest,
     editTask,
+    changeTaskFilter,
   },
 );
 
@@ -155,6 +162,7 @@ Main.propTypes = {
   requestTasks: PropTypes.func.isRequired,
   addTaskRequest: PropTypes.func.isRequired,
   deleteTaskRequest: PropTypes.func.isRequired,
+  changeTaskFilter: PropTypes.func.isRequired,
   tasks: PropTypes.array,
   isLoading: PropTypes.bool.isRequired,
 };

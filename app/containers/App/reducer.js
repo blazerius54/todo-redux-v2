@@ -9,7 +9,7 @@ import {
   CHANGE_FILTER,
 } from '../Main/consts';
 
-import { ALL_TASKSKS } from '../../utils/constants';
+import { ALL_TASKS } from '../../utils/constants';
 
 export const initialState = {
   tasks: [],
@@ -71,6 +71,7 @@ export function globalReducer(state = initialState, action) {
         ],
       };
     case CHANGE_FILTER:
+      console.log(action)
       return {
         ...state,
         filter: action.priority,
