@@ -21,7 +21,7 @@ export function globalReducer(state = initialState, action) {
   switch (action.type) {
     case RECEIVE_TASKS_REQUEST:
       return {
-        ...state.task,
+        ...state,
         isLoading: true,
       };
     case RECEIVE_TASKS_SUCCESS:
