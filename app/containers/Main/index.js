@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import styled from 'styled-components';
 import saga from './saga';
 import injectSaga from '../../utils/injectSaga';
 import {
@@ -27,17 +26,7 @@ import {
   MEDIUM_PRIORITY,
   HIGH_PRIORITY,
 } from '../../utils/constants';
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-const ButtonHeader = styled.header`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+import { ButtonWrapper, ButtonHeader, PriorityButton } from './styled';
 
 const priorities = [ALL_TASKS, LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY];
 
@@ -70,7 +59,7 @@ class Main extends React.PureComponent {
     });
   };
 
-  saveTask = (e) => {
+  saveTask = e => {
     const {
  title, description, priority, date 
 } = this.state;
@@ -95,11 +84,9 @@ class Main extends React.PureComponent {
     this.resetState();
   };
 
-  deleteTask = index => {
-    this.props.deleteTaskRequest(index);
-  };
+  deleteTask = index => this.props.deleteTaskRequest(index);
 
-  setStateAsEditing = (task) => {
+  setStateAsEditing = task => {
     const { title, description, priority, date } = task;
     this.setState({
       title,
@@ -131,16 +118,20 @@ class Main extends React.PureComponent {
   };
 
   render() {
-    const { tasks, isLoading, priority } = this.props;
+    const { tasks, isLoading } = this.props;
     return (
       <div>
         <ButtonHeader>
           <p>Priority:</p>
           <ButtonWrapper>
-            {priorities.map(item => (
-              <button onClick={() => this.handlePriorityChange(item)}>
-                {item}
-              </button>
+            {priorities.map(priority => (
+              <PriorityButton
+                key={priority}
+                isActive={priority === this.props.priority}
+                onClick={() => this.handlePriorityChange(priority)}
+              >
+                {priority}
+              </PriorityButton>
             ))}
           </ButtonWrapper>
         </ButtonHeader>
@@ -157,7 +148,7 @@ class Main extends React.PureComponent {
             saveTask={this.saveTask}
             setStateAsEditing={this.setStateAsEditing}
             saveEditedTask={this.saveEditedTask}
-            priority={priority}
+            priority={this.props.priority}
           />
         )}
         {isLoading && <Spinner />}
