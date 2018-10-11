@@ -9,7 +9,14 @@ import { TaskForm, TaskInfo, TaskRow } from './styled';
 class Form extends React.PureComponent {
   render() {
     const { onChangeForm, saveTask } = this.props;
-    const { title, description } = this.props;
+    let title = null;
+    let description = null;
+    let priority = null;
+    if(this.props.task) {
+      title = this.props.task.title;
+      description = this.props.task.description;
+      priority = this.props.task.priority;
+    };
     return (
       <TaskForm
         onSubmit={e => {
@@ -37,12 +44,13 @@ class Form extends React.PureComponent {
             <span>Priority:</span>
             <select
               name="todoPriority"
+              defaultValue={priority}
               onChange={e => onChangeForm('priority', e.target.value)}
             >
               <option/>
-              <option value="0">low</option>
-              <option value="1">medium</option>
-              <option value="2">high</option>
+              <option value="low">low</option>
+              <option value="medium">medium</option>
+              <option value="high">high</option>
             </select>
           </TaskRow>
           <TaskRow>

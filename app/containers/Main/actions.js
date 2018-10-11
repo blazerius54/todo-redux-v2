@@ -3,6 +3,10 @@ import {
   RECEIVE_TASKS_SUCCESS,
   SEND_TASK_REQUEST,
   SEND_TASK_SUCCESS,
+  DELETE_TASK_REQUEST,
+  DELETE_TASK_SUCCESS,
+  EDIT_TASK,
+  CHANGE_FILTER,
 } from './consts';
 
 export const requestTasks = () => ({
@@ -19,7 +23,28 @@ export const addTaskRequest = task => ({
   task,
 });
 
-export const sendTaskSuccess = task => ({
+export const addTaskSuccess = task => ({
   type: SEND_TASK_SUCCESS,
   task,
+});
+
+export const deleteTaskRequest = index => ({
+  type: DELETE_TASK_REQUEST,
+  index,
+});
+
+export const deleteTaskSuccess = index => ({
+  type: DELETE_TASK_SUCCESS,
+  index,
+});
+
+export const editTask = (index, task) => ({
+  type: EDIT_TASK,
+  index,
+  task,
+});
+
+export const changeTaskFilter = priority => ({
+  type: CHANGE_FILTER,
+  priority,
 });

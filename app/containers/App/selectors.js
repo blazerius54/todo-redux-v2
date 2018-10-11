@@ -13,4 +13,7 @@ const makeSelectTasks = () =>
 const makeSelectLoading = () =>
   createSelector(selectGlobal, globalState => globalState.isLoading);
 
-export { makeSelectLocation, makeSelectTasks, makeSelectLoading };
+const makeSelectPriority = () =>
+  createSelector(selectGlobal, globalState => globalState.filter);
+
+export { makeSelectLocation, makeSelectTasks, makeSelectLoading, makeSelectPriority };
