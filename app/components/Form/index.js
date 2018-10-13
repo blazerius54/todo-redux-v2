@@ -7,20 +7,34 @@ import { TaskForm, TaskInfo, TaskRow } from './styled';
 
 /* eslint-disable react/prefer-stateless-function */
 class Form extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      date: this.props.task && this.props.task.date ? moment(this.props.task.date) : null,
+    };
+  }
   render() {
     const { onChangeForm, saveTask } = this.props;
     let title = null;
     let description = null;
     let priority = null;
+    // let date = null;
     if(this.props.task) {
       title = this.props.task.title;
       description = this.props.task.description;
       priority = this.props.task.priority;
-    };
+      // date = moment(this.props.task.date);
+    }
+
+    const { date } = this.state;
+
     return (
       <TaskForm
         onSubmit={e => {
           e.target.reset();
+          this.setState({
+            date: null,
+          });
           saveTask(e);
         }}
       >
@@ -58,8 +72,14 @@ class Form extends React.PureComponent {
               Date <span className="necessary">(if necessary)</span>
             </span>
             <DatePicker
-              selected={this.props.date}
-              onChange={e => onChangeForm('date', moment(e))}
+              dateFormat="D M YYYY"
+              selected={date}
+              onChange={(e) => {
+                this.setState({
+                  date: moment(e),
+                });
+                onChangeForm('date', moment(e));
+              }}
             />
           </TaskRow>
         </TaskInfo>

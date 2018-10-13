@@ -22,7 +22,6 @@ class SingleTask extends React.PureComponent {
     });
   };
 
-
   handleEditClick = () => {
     this.setState({
       isEditing: true,

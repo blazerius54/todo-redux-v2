@@ -149,6 +149,7 @@ class Main extends React.PureComponent {
             setStateAsEditing={this.setStateAsEditing}
             saveEditedTask={this.saveEditedTask}
             priority={this.props.priority}
+            date={this.state.date}
           />
         )}
         {isLoading && <Spinner />}
