@@ -22,7 +22,6 @@ injectGlobal`
   }
 
   #app {
-    background-color: teal;
     min-height: 100%;
     min-width: 100%;
   }
@@ -31,5 +30,9 @@ injectGlobal`
   label {
     font-family: Georgia, Times, 'Times New Roman', serif;
     line-height: 1.5em;
+  }
+  
+  button {
+    padding: 0 6px;
   }
 `;

@@ -12,5 +12,7 @@ export const ButtonHeader = styled.header`
 `;
 
 export const PriorityButton = styled.button`
-  color: ${props => props.isActive && 'white'};
+  height: 40px;
+  cursor: pointer;
+  ${props => props.isActive && 'color: teal; border-bottom: 2px solid teal; margin-top: 1px; box-sizing: border-box;'}
 `;
